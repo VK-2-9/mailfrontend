@@ -4,16 +4,20 @@ import * as XLSX from "xlsx"
 
 function App() {
   const [msg, setMsg] = useState("");
+  const [sub,setSub]=useState("")
   const[sendStatus,setSendStatus]=useState(false)
   const [emailList,setemailList]=useState([])
 
   const handlemsg = (e) => {
     setMsg(e.target.value);
   };
+  const handlesub=(e)=>{
+    setSub(e.target.value)
+  }
 
   const send=()=>{
     setSendStatus(true)
-      axios.post("https://mailbackend-72rq.onrender.com/sendemail",{msg:msg,emailList:emailList}).then((data)=>{
+      axios.post("https://mailbackend-72rq.onrender.com/sendemail",{sub:sub,msg:msg,emailList:emailList}).then((data)=>{
         if (data.data === true){
           alert("Mail sent successfully")
           setSendStatus(false)
@@ -46,44 +50,35 @@ function App() {
   }
 
   return (
-    <div>
-      <div className="bg-blue-950 text-white text-2xl font-medium text-center px-5 py-3">
-        <h1> Bulk Mail</h1>
+    <div >
+      <div className=" text-yellow-400 text-2xl font-medium text-center px-5 py-3">
+        <h1> Bulk Mail App</h1>
       </div>
-
-      <div className="bg-blue-800 text-white  font-medium text-center px-5 py-3">
-        <p> We can help your business with sending multiple emails at once</p>
-      </div>
-
-      <div className="bg-blue-600 text-white  font-medium text-center px-5 py-3">
-        <p>Drag and Drop</p>
-      </div>
-
-      <div className="bg-blue-400 flex flex-col items-center text-black py-3">
+   
+      <div className=" flex flex-col items-center text-black py-3">
+      <input value={sub} onChange={handlesub} required className="w-[80%] my-5 rounded-md h-12 py-2 px-2 outline-none bg-[#484646]" type="text" placeholder="Subject..."></input>
         <textarea
           value={msg} onChange={handlemsg}
-          className="w-[80%] h-32 py-2 px-2 outline-none border border-black rounded-md"
-          placeholder="Enter your mail subject here....."
+          className="w-[80%] h-32 py-2 px-2 outline-none rounded-md bg-[#484646] "
+          placeholder="Message..."
         ></textarea>
 
         <div>
-          <input
+          <p className="text-center mt-5 font-medium text-xl text-yellow-200">Upload your file below ↓</p>
+          <input required
            onChange={handlefile}
             type="file"
-            className="border-4 border-dashed py-4 px-4 my-5"
+            className="border-4 border-dashed py-4 px-4 my-5 text-white"
+           
           ></input>
         </div>
-        <p>Total emails in the file:{emailList.length}</p>
-        <button onClick={send} className="bg-blue-950 font-medium px-4 py-2 mt-2 text-white rounded-md w-fit">
+        <p className="text-white">Total emails in the file:{emailList.length}</p>
+        <button onClick={send} className="sendbtn bg-gradient-to-r from-red-400 to-[#ff0303] font-medium px-4 py-2 mt-2 text-white rounded-md w-fit">
           
           {  sendStatus?"Sending...":"Send"}
           
         </button>
       </div>
-
-      <div className="bg-blue-300  p-8"></div>
-
-      <div className="bg-blue-200  p-8"></div>
     </div>
   );
 }
