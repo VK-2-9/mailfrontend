@@ -13,7 +13,7 @@ function App() {
 
   const send=()=>{
     setSendStatus(true)
-      axios.post("http://localhost:5000/sendemail",{msg:msg,emailList:emailList}).then((data)=>{
+      axios.post("https://mailbackend-72rq.onrender.com/sendemail",{msg:msg,emailList:emailList}).then((data)=>{
         if (data.data === true){
           alert("Mail sent successfully")
           setSendStatus(false)
